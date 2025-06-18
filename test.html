@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Discord Profile Intro</title>
+  <link href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" rel="stylesheet"> <!-- Font quỷ -->
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: "Segoe UI", sans-serif;
+      overflow: hidden;
+      color: white;
+    }
+
+    /* Video nền */
+    video#background-video {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -3;
+    }
+
+    /* Màn hình đen ban đầu */
+    #intro-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background: black;
+      z-index: 5;
+      opacity: 1;
+      transition: opacity 2s ease;
+    }
+
+    #intro-overlay.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* Blur nền */
+    .blur-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      backdrop-filter: blur(0px);
+      transition: backdrop-filter 2s ease;
+      z-index: -2;
+    }
+
+    .blurred {
+      backdrop-filter: blur(10px);
+    }
+
+    /* Profile Discord */
+    .profile-container {
+      position: relative;
+      z-index: 1;
+      width: 320px;
+      margin: 120px auto;
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 20px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 0 15px rgba(255,255,255,0.15);
+    }
+
+    .profile-container img {
+      border-radius: 50%;
+      border: 3px solid white;
+      width: 96px;
+      height: 96px;
+      margin-bottom: 10px;
+    }
+
+    .status-dot {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      margin-right: 5px;
+      vertical-align: middle;
+    }
+
+    .online { background-color: #43b581; }
+    .idle { background-color: #faa61a; }
+    .dnd { background-color: #f04747; }
+    .offline { background-color: #747f8d; }
+
+    /* Typing Text - Demon Intro */
+    .typing-container {
+      position: fixed;
+      top: 45%;
+      width: 100%;
+      text-align: center;
+      font-family: 'Creepster', cursive;
+      font-size: 70px;
+      color: red;
+      text-shadow: 0 0 20px black;
+      z-index: 6;
+    }
+
+    .typing-container span::after {
+      content: "|";
+      animation: blink 1s step-start infinite;
+    }
+
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+ .server-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 16px;
+  padding: 15px 20px;
+  margin: 20px auto 0;
+  width: 360px;
+  box-shadow: 0 0 12px rgba(255,255,255,0.1);
+}
+
+.server-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+  margin-right: 15px;
+  border: 2px solid white;
+}
+
+.server-info {
+  text-align: left;
+}
+
+.server-name {
+  margin: 0 0 8px;
+  font-size: 18px;
+  color: white;
+}
+
+.join-button {
+  display: inline-block;
+  background-color: #7289da;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.join-button:hover {
+  background-color: #5b6eae;
+  transform: scale(1.05);
+}
+  </style>
+</head>
+<body>
+
+  <!-- Video nền -->
+  <video id="background-video" loop playsinline>
+    <source src="Tomodachi.mp4" type="video/mp4">
+    Trình duyệt của bạn không hỗ trợ video nền.
+  </video>
+
+  <!-- Màn đen ban đầu -->
+  <div id="intro-overlay"></div>
+
+  <!-- Blur -->
+  <div id="blur-overlay" class="blur-overlay"></div>
+
+  <!-- Chữ DEMON xuất hiện trước khi click -->
+  <div class="typing-container">
+    <span id="text"></span>
+  </div>
+
+  <!-- Profile -->
+  <div id="discord-profile-1" class="profile-container">
+    <img id="avatar1" src="" alt="Avatar">
+    <h2 id="username1">Đang tải...</h2>
+    <p id="status1">Trạng thái: ...</p>
+    <p id="activity1">Hoạt động: ...</p>
+  </div>
+
+  <!-- Nhạc nền -->
+  <audio id="music" src="music.mp3"></audio>
+<div class="server-container">
+  <img src="https://images-ext-1.discordapp.net/external/YN1kECEbCK6udjN6TGMj7WwkGIx9fLxdS0osgU4ZgBs/%3Fsize%3D4096/https/cdn.discordapp.com/icons/1310148207107379230/bce46dc8a5e371a895c81fc3a53f8b50.png?format=webp&quality=lossless&width=960&height=960" alt="Server Icon" class="server-icon">
+  <div class="server-info">
+    <h3 class="server-name">Centennial Genius ✮⋆˙</h3>
+    <a href="https://discord.gg/egYvvW2TUY" target="_blank" class="join-button">Tham gia Discord</a>
+  </div>
+</div>
+
+  <script>
+    // Typewriter effect
+    function typeWriterEffect(text, elementId, delay = 150) {
+      const element = document.getElementById(elementId);
+      let index = 0;
+      function type() {
+        if (index < text.length) {
+          element.textContent += text.charAt(index);
+          index++;
+          setTimeout(type, delay);
+        }
+      }
+      type();
+    }
+
+    // Hiện DEMON từ đầu
+    typeWriterEffect("DEMON", "text");
+
+    // Click để tiếp tục
+   document.body.addEventListener("click", () => {
+  const overlay = document.getElementById("intro-overlay");
+  const blur = document.getElementById("blur-overlay");
+  const video = document.getElementById("background-video");
+  const music = document.getElementById("music");
+
+  // 👉 Ẩn chữ DEMON
+  document.querySelector(".typing-container").style.display = "none";
+
+  blur.classList.add("blurred");
+
+  setTimeout(() => {
+    overlay.classList.add("hidden");
+  }, 500);
+
+  video.play().catch(err => console.warn("⚠️ Không thể phát video:", err));
+  music.play().catch(err => console.warn("⚠️ Không thể phát nhạc:", err));
+}, { once: true });
+
+
+    // Load Discord User
+    function getStatusClass(status) {
+      switch (status) {
+        case "online": return "online";
+        case "idle": return "idle";
+        case "dnd": return "dnd";
+        default: return "offline";
+      }
+    }
+
+    function loadDiscordUser(userId, suffix) {
+      fetch(`http://localhost:3000/discord-status?user=${userId}`)
+        .then(res => res.json())
+        .then(data => {
+          if (!data.username) {
+            document.getElementById(`username${suffix}`).textContent = "❌ Không tìm thấy user";
+            return;
+          }
+
+          document.getElementById(`avatar${suffix}`).src = data.avatar;
+          document.getElementById(`username${suffix}`).textContent = data.username;
+
+          const dotClass = getStatusClass(data.status);
+          document.getElementById(`status${suffix}`).innerHTML =
+            `<span class="status-dot ${dotClass}"></span> ${data.status}`;
+
+          document.getElementById(`activity${suffix}`).textContent = `🎮 ${data.activity}`;
+        })
+        .catch(err => {
+          console.error("❌ Lỗi khi lấy dữ liệu:", err);
+          document.getElementById(`discord-profile-${suffix}`).innerHTML =
+            `<p>❌ Không thể tải thông tin người dùng.</p>`;
+        });
+    }
+
+    loadDiscordUser("767688473385500672", "1");
+  </script>
+
+</body>
+</html>
