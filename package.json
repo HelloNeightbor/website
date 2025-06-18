@@ -1,5 +1,5 @@
 {
-  "name": "discord-bot",
+  "name": "discord-status-server",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
@@ -7,8 +7,8 @@
   },
   "dependencies": {
     "express": "^4.18.2",
-    "discord.js": "^14.14.1",
     "cors": "^2.8.5",
-    "dotenv": "^16.0.3"
+    "dotenv": "^16.0.3",
+    "discord.js": "^14.14.1"
   }
 }
